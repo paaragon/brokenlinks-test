@@ -15,8 +15,8 @@ jobs:
       - name: Link Checker
         id: lychee
         uses: lycheeverse/lychee-action@v1.8.0
-        env:
-          INPUT_ARGS: --verbose --no-progress 'https://qiskit.org'
+        with:
+          args: --verbose --no-progress 'https://qiskit.org'
 
       - name: Create Issue From File
         if: env.lychee_exit_code != 0
