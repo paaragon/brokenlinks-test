@@ -12,4 +12,6 @@ jobs:
             RECURSIVE: ture
             TARGET: https://qiskit.org/documentation/
             GITHUB_TOKEN: ${{github.token}}
-            EXCLUDE_EXTERNAL_LINKS: true
+            EXCLUDE_EXTERNAL_LINKS: false
+            EXCLUDED_KEYWORDS: stubs, https://github.com, https://cdnjs.cloudflare
+            EXCLUDE_LINKS_TO_SAME_PAGE: true
