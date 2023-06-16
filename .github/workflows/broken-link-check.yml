@@ -1,17 +1,26 @@
-on: workflow_dispatch
-  
-name: Broken Link Check
+name: Links
+
+on:
+  repository_dispatch:
+  workflow_dispatch:
+  schedule:
+    - cron: "00 18 * * *"
+
 jobs:
-    check:
-        name: Broken Link Check
-        runs-on: ubuntu-latest
-        steps:
-        - name: 'Broken Link Check'
-          uses: technote-space/broken-link-checker-action@v2
-          with:
-            RECURSIVE: ture
-            TARGET: https://qiskit.org/documentation/
-            GITHUB_TOKEN: ${{github.token}}
-            EXCLUDE_EXTERNAL_LINKS: false
-            EXCLUDED_KEYWORDS: stubs, https://github.com, https://cdnjs.cloudflare
-            EXCLUDE_LINKS_TO_SAME_PAGE: true
+  linkChecker:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+
+      - name: Link Checker
+        id: lychee
+        uses: lycheeverse/lychee-action@v1.8.0
+
+      - name: Create Issue From File
+        if: env.lychee_exit_code != 0
+        uses: peter-evans/create-issue-from-file@v4
+        with:
+          title: Link Checker Report
+          content-filepath: ./lychee/out.md
+          labels: report, automated issue
+          args: https://qiskit.org
