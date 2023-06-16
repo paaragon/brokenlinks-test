@@ -7,21 +7,12 @@ on:
     - cron: "00 18 * * *"
 
 jobs:
-  linkChecker:
+  my-broken-link-checker:
+    name: Check broken links
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-
-      - name: Link Checker
-        id: lychee
-        uses: lycheeverse/lychee-action@v1.8.0
+      - name: Check
+        uses: ruzickap/action-my-broken-link-checker@v2
         with:
-          args: --verbose --no-progress 'https://qiskit.org'
-
-      - name: Create Issue From File
-        if: env.lychee_exit_code != 0
-        uses: peter-evans/create-issue-from-file@v4
-        with:
-          title: Link Checker Report
-          content-filepath: ./lychee/out.md
-          labels: report, automated issue
+          url: https://qiskit.org
+          cmd_params: "--skip-tls-verification --one-page-only --max-connections=3 --color=always"  # Check just one page
