@@ -9,5 +9,6 @@ jobs:
         - name: 'Broken Link Check'
           uses: technote-space/broken-link-checker-action@v2
           with:
+            RECURSIVE: ture
             TARGET: https://qiskit.org/documentation/
             GITHUB_TOKEN: ${{github.token}}
